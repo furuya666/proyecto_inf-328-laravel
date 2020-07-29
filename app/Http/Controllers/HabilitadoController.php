@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Habilitado;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 class HabilitadoController extends Controller
 {
     /**
@@ -12,9 +14,18 @@ class HabilitadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $ci=$request->get('Buscador');
+        $datos['habilitados']= DB::table('habilitados')
+        ->join('personas','habilitados.persona_id','personas.id')
+        ->where('ci','like',"%$ci%")
+        ->orderBy('nombre', 'asc')
+        ->paginate(3);
+        return  view('habilitados.index',$datos);
+
+        
     }
 
     /**
@@ -25,6 +36,7 @@ class HabilitadoController extends Controller
     public function create()
     {
         //
+        return view('habilitados.create');
     }
 
     /**

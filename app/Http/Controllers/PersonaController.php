@@ -12,9 +12,14 @@ class PersonaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+       $ci=$request->get('Buscador');
+       
+        $datos['personas']=Persona::where('ci','like',"%$ci%")->paginate(4);
+       
+        return view('personas.index',$datos);
     }
 
     /**
@@ -25,6 +30,7 @@ class PersonaController extends Controller
     public function create()
     {
         //
+        return view('personas.create');
     }
 
     /**
@@ -36,6 +42,20 @@ class PersonaController extends Controller
     public function store(Request $request)
     {
         //
+        $campos=[
+        'nombre'=>'required|string|max:100',
+        'apellido_paterno'=>'required|string|max:100',
+        'apellido_materno'=>'required|string|max:100',
+        'edad'=>'required|integer|max:100',
+        'ci'=>'required|string|max:12'
+        ];
+        $Mensaje=["required"=>'El :attribute es requerido'];
+        $this->validate($request,$campos,$Mensaje);
+        $datosPersona=request()->all();
+        $datosPersona=request()->except('_token');
+        Persona::insert($datosPersona);
+        //return response()->json($datosPersona);
+        return redirect('personas')->with('Mensaje','Persona agregado con exito');
     }
 
     /**
@@ -55,9 +75,11 @@ class PersonaController extends Controller
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function edit(Persona $persona)
+    public function edit($id)
     {
         //
+        $persona= Persona::findOrFail($id);
+        return view('personas.edit',compact('persona'));
     }
 
     /**
@@ -67,9 +89,21 @@ class PersonaController extends Controller
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Persona $persona)
+    public function update(Request $request,$id)
     {
         //
+        $campos=[
+            'nombre'=>'required|string|max:100',
+            'apellido_paterno'=>'required|string|max:100',
+            'apellido_materno'=>'required|string|max:100',
+            'edad'=>'required|integer|max:100',
+            'ci'=>'required|string|max:12'
+            ];
+        $datosPersona=request()->except(['_token','_method']);
+        Persona:: where('id','=',$id)->update($datosPersona);
+       // $persona=Persona::findOrFail($id);
+        //return view('personas.edit',compact('persona'));        
+         return redirect('personas')->with('Mensaje','Persona modificado con exito');
     }
 
     /**
@@ -78,8 +112,10 @@ class PersonaController extends Controller
      * @param  \App\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Persona $persona)
+    public function destroy( $id)
     {
         //
+        Persona::destroy($id);
+        return redirect('personas')->with('Mensaje','Persona eliminado con exito');
     }
 }
