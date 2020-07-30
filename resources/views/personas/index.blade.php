@@ -8,8 +8,8 @@
     }}
     </div>
     @endif
-    <a href="{{ url('personas/create')}}" class=" btn btn-success">Agregar Persona</a>
-    <a href="{{ url('habilitados')}}" class=" btn btn-primary">Aportes AFPS</a>
+    <a href="{{ url('personas/create')}}" class=" btn btn-secondary">Agregar Persona</a>
+    <a href="{{ url('habilitados')}}" class=" btn btn-success">Aportes AFPS</a>
 </br>
 
 <nav class="navbar navbar-light float-right">

@@ -9,7 +9,7 @@
     </div>
     @endif
     <a href="{{ url('habilitados')}}" class=" btn btn-primary">Atras</a>
-    <a href="{{ url('bonos/create')}}" class=" btn btn-success">Cobrar Bono</a>
+    <a href="{{ url('bonos/create')}}" class=" btn btn-secondary">Cobrar Bono</a>
  
    <br/>
    <nav class="navbar navbar-light float-right">

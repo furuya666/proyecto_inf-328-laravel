@@ -17,7 +17,9 @@ class PersonaController extends Controller
         //
        $ci=$request->get('Buscador');
        
-        $datos['personas']=Persona::where('ci','like',"%$ci%")->paginate(4);
+        $datos['personas']=Persona::where('ci','like',"%$ci%")
+        ->orderBy('id','asc')
+        ->paginate(6);
        
         return view('personas.index',$datos);
     }
@@ -99,8 +101,8 @@ class PersonaController extends Controller
             'edad'=>'required|integer|max:100',
             'ci'=>'required|string|max:12'
             ];
-        $datosPersona=request()->except(['_token','_method']);
-        Persona:: where('id','=',$id)->update($datosPersona);
+        $datosHabilitado=request()->except(['_token','_method']);
+        Persona:: where('id','=',$id)->update($datosHabilitado);
        // $persona=Persona::findOrFail($id);
         //return view('personas.edit',compact('persona'));        
          return redirect('personas')->with('Mensaje','Persona modificado con exito');

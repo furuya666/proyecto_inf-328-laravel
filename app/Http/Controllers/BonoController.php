@@ -20,7 +20,8 @@ class BonoController extends Controller
         ->leftjoin('habilitados','habilitados.id','=','bonos.habilitado_id')
         ->leftjoin('personas','personas.id','=','habilitados.persona_id')
         ->where('ci','like',"%$ci%")
-        ->paginate(1);
+        ->orderBy('bonos.id', 'asc')
+        ->paginate(6);
        
         return  view('bonos.index',$datos);
     }

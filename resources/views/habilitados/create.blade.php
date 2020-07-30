@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="" method="post" enctype="multipart/form-data">
-    <label>
-    holaaaaaaaaaaaaaaaa
+@extends('layouts.app')
+@section('content')
+<div class="container">
+    @if( count($errors)>0)
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>{{$error}}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+         <form action="{{url('habilitados')}}" class="form-horizontal" method="post" enctype="multipart/form-data" autocomplete="off">
+{{csrf_field()}}
+@include('habilitados.form',['Modo'=>'crear'])
+
     </form>
-</body>
-</html>
+    </div>
+@endsection

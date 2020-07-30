@@ -30,3 +30,4 @@
 <input type="submit" class="btn btn-success" value=" {{$Modo=='crear' ? 'Agregar':'Modificar'}}">
 
 <a href="{{ url('personas')}}"  class="btn btn-primary">Regresar</a>
+

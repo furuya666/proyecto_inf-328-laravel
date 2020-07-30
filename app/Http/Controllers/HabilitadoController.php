@@ -21,8 +21,8 @@ class HabilitadoController extends Controller
         $datos['habilitados']= DB::table('habilitados')
         ->join('personas','habilitados.persona_id','personas.id')
         ->where('ci','like',"%$ci%")
-        ->orderBy('nombre', 'asc')
-        ->paginate(3);
+        ->orderBy('habilitados.id', 'asc')
+        ->paginate(6);
         return  view('habilitados.index',$datos);
 
         
@@ -48,6 +48,11 @@ class HabilitadoController extends Controller
     public function store(Request $request)
     {
         //
+        $datosHabilitado=request()->all();
+        $datosHabilitado=request()->except('_token');
+        Habilitado::insert($datosHabilitado);
+        //return response()->json($datosPersona);
+        return redirect('habilitados')->with('Mensaje','AFPS agregado con exito');
     }
 
     /**
@@ -67,9 +72,11 @@ class HabilitadoController extends Controller
      * @param  \App\Habilitado  $habilitado
      * @return \Illuminate\Http\Response
      */
-    public function edit(Habilitado $habilitado)
+    public function edit($id)
     {
         //
+        $habilitado= Habilitado::findOrFail($id);
+        return view('habilitados.edit',compact('habilitado'));
     }
 
     /**
@@ -79,9 +86,13 @@ class HabilitadoController extends Controller
      * @param  \App\Habilitado  $habilitado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Habilitado $habilitado)
+    public function update(Request $request,$id)
     {
         //
+        $datosHabilitado=request()->except(['_token','_method']);
+        Habilitado:: where('id','=',$id)->update($datosHabilitado);
+            
+         return redirect('habilitados')->with('Mensaje','Habilitado modificado con exito');
     }
 
     /**

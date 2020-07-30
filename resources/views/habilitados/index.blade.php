@@ -10,6 +10,7 @@
     @endif
     <a href="{{ url('personas')}}" class=" btn btn-primary">Atras</a>
     <a href="{{ url('bonos')}}" class=" btn btn-success">Verificar Cobro</a>
+    <a href="{{ url('habilitados/create')}}" class=" btn btn-secondary">Agregar Habilitado</a>
  
    <br/>
    <nav class="navbar navbar-light float-right">
@@ -32,6 +33,7 @@
                 <th>Ci</th>
                 <th>Apto</th>
                 <th>Descripcion</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -46,7 +48,18 @@
                 <td>{{$habilitado->apto}}</td>
                 <td>{{$habilitado->descripcion}}</td>
                 
-
+                <td>
+                    <a href="{{ url('/habilitados/'.$habilitado->id.'/edit')}}" class="btn btn-warning">Editar</a> 
+                 
+                
+                <form method="post" action="{{ url('/habilitados/'.$habilitado->id)}}" style="display:inline">
+                {{csrf_field()}}
+                {{method_field('DELETE')}}
+              <!--  <button type="submit" onclick="return confirm('¿Borrar?');" class="btn btn-danger">Borrar</button>-->
+                  </form>  
+                
+                
+                </td>
               
             </tr>
             @endforeach
